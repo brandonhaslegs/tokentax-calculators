@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Tax Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <h1>Crypto Tax Calculator</h1>
+        <p class="subtitle">
+          Easily calculate your crypto taxes with CryptoTax’s free cryptocurrency
+          tax calculator.
+        </p>
+        <div class="pill-row">
+          <label class="pill-select">
+            <span>Currency</span>
+            <select id="currency">
+              <option>USD</option>
+              <option>EUR</option>
+              <option>GBP</option>
+            </select>
+          </label>
+          <label class="pill-select">
+            <span>Crypto</span>
+            <div class="select-with-icon">
+              <span class="token-icon" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xml:space="preserve"
+                  width="100%"
+                  height="100%"
+                  version="1.1"
+                  shape-rendering="geometricPrecision"
+                  text-rendering="geometricPrecision"
+                  image-rendering="optimizeQuality"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  viewBox="0 0 4091.27 4091.73"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xmlns:xodm="http://www.corel.com/coreldraw/odm/2003"
+                >
+                  <g id="Layer_x0020_1">
+                    <metadata id="CorelCorpID_0Corel-Layer" />
+                    <g id="_1421344023328">
+                      <path
+                        fill="#F7931A"
+                        fill-rule="nonzero"
+                        d="M4030.06 2540.77c-273.24,1096.01 -1383.32,1763.02 -2479.46,1489.71 -1095.68,-273.24 -1762.69,-1383.39 -1489.33,-2479.31 273.12,-1096.13 1383.2,-1763.19 2479,-1489.95 1096.06,273.24 1763.03,1383.51 1489.76,2479.57l0.02 -0.02z"
+                      />
+                      <path
+                        fill="white"
+                        fill-rule="nonzero"
+                        d="M2947.77 1754.38c40.72,-272.26 -166.56,-418.61 -450,-516.24l91.95 -368.8 -224.5 -55.94 -89.51 359.09c-59.02,-14.72 -119.63,-28.59 -179.87,-42.34l90.16 -361.46 -224.36 -55.94 -92 368.68c-48.84,-11.12 -96.81,-22.11 -143.35,-33.69l0.26 -1.16 -309.59 -77.31 -59.72 239.78c0,0 166.56,38.18 163.05,40.53 90.91,22.69 107.35,82.87 104.62,130.57l-104.74 420.15c6.26,1.59 14.38,3.89 23.34,7.49 -7.49,-1.86 -15.46,-3.89 -23.73,-5.87l-146.81 588.57c-11.11,27.62 -39.31,69.07 -102.87,53.33 2.25,3.26 -163.17,-40.72 -163.17,-40.72l-111.46 256.98 292.15 72.83c54.35,13.63 107.61,27.89 160.06,41.3l-92.9 373.03 224.24 55.94 92 -369.07c61.26,16.63 120.71,31.97 178.91,46.43l-91.69 367.33 224.51 55.94 92.89 -372.33c382.82,72.45 670.67,43.24 791.83,-303.02 97.63,-278.78 -4.86,-439.58 -206.26,-544.44 146.69,-33.83 257.18,-130.31 286.64,-329.61l-0.07 -0.05zm-512.93 719.26c-69.38,278.78 -538.76,128.08 -690.94,90.29l123.28 -494.2c152.17,37.99 640.17,113.17 567.67,403.91zm69.43 -723.3c-63.29,253.58 -453.96,124.75 -580.69,93.16l111.77 -448.21c126.73,31.59 534.85,90.55 468.94,355.05l-0.02 0z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+              </span>
+              <select id="token">
+              <option>BTC</option>
+              <option>ETH</option>
+              <option>SOL</option>
+              <option>USDC</option>
+              </select>
+            </div>
+          </label>
+        </div>
+      </header>
+
+      <section class="calculator">
+        <div class="panel">
+          <div class="panel-heading">
+            <h2>Your Investment</h2>
+            <p>How much did you buy in USD?</p>
+          </div>
+          <div class="input-row">
+            <span class="prefix">$</span>
+            <input id="investment" type="number" min="0" step="0.01" placeholder="10,000" />
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h3>Crypto</h3>
+          <label class="toggle">
+            <input id="longTerm" type="checkbox" checked />
+            <span class="toggle-track"></span>
+            <span class="toggle-label">Held for over 1 year</span>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Buy price</h4>
+              <p>The price when you bought it</p>
+            </div>
+            <div class="input-row">
+              <span class="prefix">$</span>
+              <input id="buyPrice" type="number" min="0" step="0.01" placeholder="1.00" />
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Sell price</h4>
+              <p>The price when you sold it</p>
+            </div>
+            <div class="input-row">
+              <span class="prefix">$</span>
+              <input id="sellPrice" type="number" min="0" step="0.01" placeholder="2.00" />
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-title">Fees</h3>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Investment fee</h4>
+              <p>i.e. $100 Coinbase fee</p>
+            </div>
+            <div class="input-row">
+              <span class="prefix">$</span>
+              <input id="investmentFee" type="number" min="0" step="0.01" placeholder="100.00" />
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Exit fee</h4>
+              <p>Fee to convert crypto to fiat</p>
+            </div>
+            <div class="input-row">
+              <span class="prefix">$</span>
+              <input id="exitFee" type="number" min="0" step="0.01" placeholder="200.00" />
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-title">Details about you</h3>
+        <div class="grid-3">
+          <label class="panel select-panel">
+            <span class="panel-heading">
+              <strong>State of Residence</strong>
+            </span>
+            <select id="state">
+              <option value="NY" selected>New York</option>
+              <option value="CA">California</option>
+              <option value="TX">Texas</option>
+              <option value="FL">Florida</option>
+              <option value="IL">Illinois</option>
+              <option value="WA">Washington</option>
+            </select>
+          </label>
+          <label class="panel select-panel">
+            <span class="panel-heading">
+              <strong>Filing Status</strong>
+            </span>
+            <select id="filingStatus">
+              <option value="single" selected>Single</option>
+              <option value="joint">Married filing jointly</option>
+              <option value="head">Head of household</option>
+            </select>
+          </label>
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Annual income</h4>
+            </div>
+            <div class="input-row">
+              <span class="prefix">$</span>
+              <input id="income" type="number" min="0" step="1" placeholder="100,000" />
+            </div>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="summary-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tax type</th>
+                  <th>Marginal</th>
+                  <th>Effective</th>
+                  <th>Tax due</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Tax type">Federal</td>
+                  <td id="fedMarginal" data-label="Marginal">24.00%</td>
+                  <td id="fedEffective" data-label="Effective">17.98%</td>
+                  <td id="fedTax" data-label="Tax due">$1,744.36</td>
+                </tr>
+                <tr>
+                  <td data-label="Tax type">State</td>
+                  <td id="stateMarginal" data-label="Marginal">6.85%</td>
+                  <td id="stateEffective" data-label="Effective">6.18%</td>
+                  <td id="stateTax" data-label="Tax due">$599.70</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="summary-results">
+            <div class="summary-left">
+              <div class="summary-math">
+                <div>
+                  <span>Proceeds</span>
+                  <strong id="proceeds">$20,000</strong>
+                </div>
+                <div>
+                  <span>Cost basis</span>
+                  <strong id="costBasis">-$10,000</strong>
+                </div>
+                <div>
+                  <span>Fees</span>
+                  <strong id="fees">-$300</strong>
+                </div>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-total">
+                <p>Capital gains <strong id="capitalGains" class="positive">+$9,700.00</strong></p>
+                <p class="total-tax">Total capital gains tax you owe <strong id="totalTax" class="negative">-$2,344.06</strong></p>
+              </div>
+            </div>
+            <div class="summary-chart">
+              <svg
+                class="pie"
+                id="pieChart"
+                width="166"
+                height="166"
+                viewBox="0 0 166 166"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M83 83V0C128.84 0 166 37.1604 166 83C166 128.84 128.84 166 83 166C37.1604 166 0 128.84 0 83C0 73.3486 1.68332 63.7712 4.9743 54.6982L83 83Z"
+                  fill="#46DF8B"
+                />
+                <path
+                  d="M83 83L4.9743 54.6982C16.8837 21.8649 48.0734 0 83 0V83Z"
+                  fill="#FF5E5E"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <p class="disclaimer">
+          This is an estimate. Things like deductions, credits, losses, and
+          local taxes can change the result. For real advice, talk to a tax pro.
+        </p>
+
+        <div class="cta">
+          <button type="button">Get in touch →</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
