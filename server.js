@@ -5,12 +5,19 @@ const url = require('url');
 
 const PORT = process.env.PORT || 5174;
 const ROOT = __dirname;
+const HEARTBEAT_INTERVAL = 15000;
 
 const clients = new Set();
 
 function sendEvent() {
   for (const res of clients) {
     res.write('data: reload\n\n');
+  }
+}
+
+function sendHeartbeat() {
+  for (const res of clients) {
+    res.write(': keep-alive\n\n');
   }
 }
 
@@ -71,3 +78,5 @@ fs.watch(ROOT, { recursive: true }, (eventType, filename) => {
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
+setInterval(sendHeartbeat, HEARTBEAT_INTERVAL);

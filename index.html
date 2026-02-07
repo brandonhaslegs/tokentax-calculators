@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto Tax Calculator</title>
+    <title>Crypto Calculator</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="page">
       <header class="hero">
-        <h1>Crypto Tax Calculator</h1>
+        <h1>Crypto Calculator</h1>
         <p class="subtitle">
-          Easily calculate your crypto taxes with CryptoTax’s free cryptocurrency
+          Easily calculate your crypto gains and taxes with CryptoTax’s free cryptocurrency
           tax calculator.
         </p>
         <div class="pill-row">
@@ -71,43 +71,81 @@
       </header>
 
       <section class="calculator">
-        <div class="panel">
-          <div class="panel-heading">
-            <h2>Your Investment</h2>
-            <p>How much did you buy in USD?</p>
+        <div class="section-header">
+          <h3>Timeline</h3>
+        </div>
+
+        <div class="grid-3">
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Purchase date</h4>
+              <p>The day you bought the crypto</p>
+            </div>
+            <div class="input-row">
+              <div class="date-inputs" data-date="purchase">
+                <input id="purchaseMonth" class="date-part" type="text" inputmode="numeric" maxlength="2" placeholder="mm" />
+                <span class="date-sep">/</span>
+                <input id="purchaseDay" class="date-part" type="text" inputmode="numeric" maxlength="2" placeholder="dd" />
+                <span class="date-sep">/</span>
+                <input id="purchaseYear" class="date-part year" type="text" inputmode="numeric" maxlength="4" placeholder="yyyy" />
+              </div>
+            </div>
           </div>
-          <div class="input-row">
-            <span class="prefix">$</span>
-            <input id="investment" type="number" min="0" step="0.01" placeholder="10,000" />
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Sale date</h4>
+              <p>Defaults to today</p>
+            </div>
+            <div class="input-row">
+              <div class="date-inputs" data-date="sale">
+                <input id="saleMonth" class="date-part" type="text" inputmode="numeric" maxlength="2" placeholder="mm" />
+                <span class="date-sep">/</span>
+                <input id="saleDay" class="date-part" type="text" inputmode="numeric" maxlength="2" placeholder="dd" />
+                <span class="date-sep">/</span>
+                <input id="saleYear" class="date-part year" type="text" inputmode="numeric" maxlength="4" placeholder="yyyy" />
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-heading">
+              <h4>Amount invested</h4>
+              <p><span id="investmentCurrencyLabel">USD</span> spent at purchase.</p>
+            </div>
+            <div class="input-row">
+              <span class="prefix">$</span>
+              <input id="investment" type="number" min="0" step="0.01" placeholder="10,000" value="100" />
+            </div>
           </div>
         </div>
 
         <div class="section-header">
-          <h3>Crypto</h3>
-          <label class="toggle">
-            <input id="longTerm" type="checkbox" checked />
-            <span class="toggle-track"></span>
-            <span class="toggle-label">Held for over 1 year</span>
-          </label>
+          <h3><span id="priceTokenLabel">BTC</span> Price</h3>
+          <p class="section-note">Based on historical price data from Coinmarketcap.</p>
         </div>
 
-        <div class="grid-2">
+        <div class="grid-2 advanced-prices" id="advancedPricesPanel">
           <div class="panel">
             <div class="panel-heading">
-              <h4>Buy price</h4>
-              <p>The price when you bought it</p>
+              <h4>Price at purchase</h4>
             </div>
-            <div class="input-row">
+            <div class="input-row display-value" id="buyPriceDisplay">
+              <span class="prefix">$</span>
+              <span class="value-text" id="buyPriceText">0.00</span>
+            </div>
+            <div class="input-row input-value" id="buyPriceInputRow">
               <span class="prefix">$</span>
               <input id="buyPrice" type="number" min="0" step="0.01" placeholder="1.00" />
             </div>
           </div>
           <div class="panel">
             <div class="panel-heading">
-              <h4>Sell price</h4>
-              <p>The price when you sold it</p>
+              <h4>Price at sale</h4>
             </div>
-            <div class="input-row">
+            <div class="input-row display-value" id="sellPriceDisplay">
+              <span class="prefix">$</span>
+              <span class="value-text" id="sellPriceText">0.00</span>
+            </div>
+            <div class="input-row input-value" id="sellPriceInputRow">
               <span class="prefix">$</span>
               <input id="sellPrice" type="number" min="0" step="0.01" placeholder="2.00" />
             </div>
@@ -119,7 +157,7 @@
           <div class="panel">
             <div class="panel-heading">
               <h4>Investment fee</h4>
-              <p>i.e. $100 Coinbase fee</p>
+              <p>Typically 0.1%–0.6% of invested amount</p>
             </div>
             <div class="input-row">
               <span class="prefix">$</span>
@@ -129,7 +167,7 @@
           <div class="panel">
             <div class="panel-heading">
               <h4>Exit fee</h4>
-              <p>Fee to convert crypto to fiat</p>
+              <p>Fee to convert crypto to <span id="exitCurrencyLabel">USD</span> (usually around 0.6%)</p>
             </div>
             <div class="input-row">
               <span class="prefix">$</span>
@@ -174,91 +212,138 @@
           </div>
         </div>
 
-        <div class="summary">
-          <div class="summary-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Tax type</th>
-                  <th>Marginal</th>
-                  <th>Effective</th>
-                  <th>Tax due</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Tax type">Federal</td>
-                  <td id="fedMarginal" data-label="Marginal">24.00%</td>
-                  <td id="fedEffective" data-label="Effective">17.98%</td>
-                  <td id="fedTax" data-label="Tax due">$1,744.36</td>
-                </tr>
-                <tr>
-                  <td data-label="Tax type">State</td>
-                  <td id="stateMarginal" data-label="Marginal">6.85%</td>
-                  <td id="stateEffective" data-label="Effective">6.18%</td>
-                  <td id="stateTax" data-label="Tax due">$599.70</td>
-                </tr>
-              </tbody>
-            </table>
+        <div id="results" class="results-stack is-hidden">
+          <div class="headline">
+            <h2 id="headlineResult">Your investment would be worth $0 today.</h2>
+            <p id="headlineDetail" class="headline-detail">Based on the selected dates and prices.</p>
+          </div>
+
+          <div class="section-header">
+            <h3>Tax breakdown</h3>
+            <p class="section-note">Applies short- or long-term rates based on your dates.</p>
+          </div>
+          <div class="summary">
+            <div class="summary-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tax type</th>
+                    <th>Marginal</th>
+                    <th>Effective</th>
+                    <th>Tax due</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Tax type">Federal</td>
+                    <td id="fedMarginal" data-label="Marginal">24.00%</td>
+                    <td id="fedEffective" data-label="Effective">17.98%</td>
+                    <td id="fedTax" data-label="Tax due">$1,744.36</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Tax type">State</td>
+                    <td id="stateMarginal" data-label="Marginal">6.85%</td>
+                    <td id="stateEffective" data-label="Effective">6.18%</td>
+                    <td id="stateTax" data-label="Tax due">$599.70</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid-3 results-columns">
+            <div class="panel results-panel compact bottom-align-total">
+              <div class="panel-heading">
+                <h3>Pre-tax capital gains</h3>
+              </div>
+              <div class="summary-results">
+                <div class="summary-left">
+                <div class="summary-math">
+                    <div>
+                      <span>Current value</span>
+                      <strong id="proceeds">$20,000</strong>
+                    </div>
+                    <div>
+                      <span>Cost basis</span>
+                      <strong id="costBasis">-$10,000</strong>
+                    </div>
+                    <div>
+                      <span>Fees</span>
+                      <strong id="fees">-$300</strong>
+                    </div>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-total">
+                    <p>Capital gains <strong id="capitalGains" class="positive">+$9,700.00</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel results-panel compact">
+              <div class="panel-heading">
+                <h3>Net after-tax outcome</h3>
+              </div>
+              <div class="summary-results">
+                <div class="summary-left">
+                  <div class="summary-math">
+                    <div>
+                      <span>After-tax value</span>
+                      <strong id="afterTaxValue">$0</strong>
+                    </div>
+                    <div>
+                      <span>After-tax gain/loss</span>
+                      <strong id="afterTaxGain" class="positive">+$0</strong>
+                    </div>
+                    <div class="placeholder-row">
+                      <span>&nbsp;</span>
+                      <strong>&nbsp;</strong>
+                    </div>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-total">
+                    <p>Total capital gains tax <strong id="totalTax" class="negative">-$2,344.06</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel results-panel chart-panel">
+              <div class="panel-heading">
+                <h3>Allocation</h3>
+              </div>
+              <div class="summary-chart">
+                <div class="allocation-bar" aria-hidden="true">
+                  <span class="allocation-segment gain" style="width: 80%"></span>
+                  <span class="allocation-segment tax" style="width: 20%"></span>
+                </div>
+              </div>
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <span class="legend-dot gain"></span>
+                  <span>Net value</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot tax"></span>
+                  <span>Taxes & fees</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="results-panel">
-          <div class="summary-results">
-            <div class="summary-left">
-              <div class="summary-math">
-                <div>
-                  <span>Proceeds</span>
-                  <strong id="proceeds">$20,000</strong>
-                </div>
-                <div>
-                  <span>Cost basis</span>
-                  <strong id="costBasis">-$10,000</strong>
-                </div>
-                <div>
-                  <span>Fees</span>
-                  <strong id="fees">-$300</strong>
-                </div>
-              </div>
-              <div class="summary-divider"></div>
-              <div class="summary-total">
-                <p>Capital gains <strong id="capitalGains" class="positive">+$9,700.00</strong></p>
-                <p class="total-tax">Total capital gains tax you owe <strong id="totalTax" class="negative">-$2,344.06</strong></p>
-              </div>
-            </div>
-            <div class="summary-chart">
-              <svg
-                class="pie"
-                id="pieChart"
-                width="166"
-                height="166"
-                viewBox="0 0 166 166"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M83 83V0C128.84 0 166 37.1604 166 83C166 128.84 128.84 166 83 166C37.1604 166 0 128.84 0 83C0 73.3486 1.68332 63.7712 4.9743 54.6982L83 83Z"
-                  fill="#46DF8B"
-                />
-                <path
-                  d="M83 83L4.9743 54.6982C16.8837 21.8649 48.0734 0 83 0V83Z"
-                  fill="#FF5E5E"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <p class="disclaimer">
-          This is an estimate. Things like deductions, credits, losses, and
-          local taxes can change the result. For real advice, talk to a tax pro.
-        </p>
-
-        <div class="cta">
-          <button type="button">Get in touch →</button>
-        </div>
       </section>
+
+      <div class="disclaimer">
+        <span class="disclaimer-badge">Disclaimer</span>
+        <h2>This is an estimate.</h2>
+        <p>Things like deductions, credits, losses, and local taxes can change the result.</p>
+        <p>For real advice, talk to a tax pro.</p>
+		<div class="cta">
+		  <button type="button">Get in touch with us →</button>
+		</div>
+      </div>
+
     </main>
 
     <script src="script.js"></script>
