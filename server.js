@@ -46,6 +46,11 @@ function serveFile(filePath, res) {
 
 const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url);
+  const routeMap = {
+    '/': '/crypto-profit-calculator.html',
+    '/crypto-profit-calculator': '/crypto-profit-calculator.html',
+    '/crypto-tax-calculator': '/crypto-tax-calculator.html',
+  };
 
   if (parsed.pathname === '/events') {
     res.writeHead(200, {
@@ -62,7 +67,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  let pathname = parsed.pathname === '/' ? '/index.html' : parsed.pathname;
+  let pathname = routeMap[parsed.pathname] || parsed.pathname;
   pathname = pathname.replace(/\.\.(\/|\\)/g, '');
   const filePath = path.join(ROOT, pathname);
   serveFile(filePath, res);
